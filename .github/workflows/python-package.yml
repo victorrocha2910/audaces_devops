@@ -33,6 +33,7 @@ jobs:
         pytest
     - name: build docker image
       run: |
-        docker build -t audaces-pythonv$GITHUB_RUN_NUMBER .
+        sudo docker build -t audaces-pythonv$GITHUB_RUN_NUMBER .
     - name: run docker container
-      run: docker run -itd -p 5000:5000 --name=python-audaces-devops audaces-pythonv$GITHUB_RUN_NUMBER
+      run: |
+        sudo docker run -itd -p 5000:5000 --name=python-audaces-devops audaces-pythonv$GITHUB_RUN_NUMBER
