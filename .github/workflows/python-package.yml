@@ -34,6 +34,9 @@ jobs:
     - name: build docker image
       run: |
         sudo docker build -t audaces-pythonv$GITHUB_RUN_NUMBER .
+    - name: remove last container
+      run: |
+        sudo docker rm -f python-audaces-devops
     - name: run docker container
       run: |
         sudo docker run -itd -p 5000:5000 --name=python-audaces-devops audaces-pythonv$GITHUB_RUN_NUMBER
