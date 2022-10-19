@@ -12,7 +12,9 @@ def math_sum():
     try:
         a = request.args.get('a', 1)
         b = request.args.get('b', 2)
-        result = math_controller.sum_values(int(a), int(b))
+        # result = math_controller.sum_values(int(a), int(b))
+        # resultado = list(a,b)
+        result = int(a) + int(b)
         return f'Sum of {a}+{b} is: {result}'
     except ValueError:
         return abort(400)
