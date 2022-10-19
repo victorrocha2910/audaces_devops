@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: devops-python
+    runs-on: devops2-victor-audaces
+    
     strategy:
       fail-fast: false
       matrix:
@@ -26,15 +27,16 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        pip install -r requirements.txt
     - name: Test with pytest
       run: |
         pytest
+    - name: build docker image
+      run: |
+        sudo docker build -t audaces-pythonv$GITHUB_RUN_NUMBER .
+    - name: remove last container
+      run: |
+        sudo docker rm -f python-audaces-devops
+    - name: run docker container
+      run: |
+        sudo docker run -itd -p 5000:5000 --name=python-audaces-devops audaces-pythonv$GITHUB_RUN_NUMBER
